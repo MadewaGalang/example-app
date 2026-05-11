@@ -13,26 +13,26 @@ use App\Http\Controllers\Admin\DashboardController;
 
 
 // Halaman utama
-
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/items', [HomeController::class, 'items']);
 Route::get('/industry', [HomeController::class, 'industry']);
-
 
 // Halaman lain
 Route::get('/about', function () {
     return view('about', ['title' => 'About']);
 });
 
-
-// Route::get('/industry', [IndustryGalleryController::class, 'index'])->name('industry.index');  // Rute untuk galeri industri
-
 Route::get('/location', function () {
     return view('location', ['title' => 'Location']);
 });
 
+// Fallback untuk route 'login' bawaan Laravel
+Route::get('/login', function () {
+    return redirect('/admin/login');
+})->name('login');
+
 // Route untuk admin (tanpa auth)
-Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.loginForm');
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.loginForm')->middleware('guest:admin');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login');
 
 // Route untuk admin (dengan auth)
@@ -49,7 +49,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth:admin')->group(function
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::put('products/{product}/updateFeatured', [ProductController::class, 'updateFeatured'])->name('products.updateFeatured');
 
-    
     // Industry Gallery
     Route::resource('industry_gallery', IndustryGalleryController::class)->except(['show']);
     Route::post('/industry_gallery/{id}/updateFeatured', [IndustryGalleryController::class, 'updateFeatured'])->name('industry_gallery.updateFeatured');
