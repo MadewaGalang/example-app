@@ -13,6 +13,11 @@ class AuthController extends Controller
     // Tampilkan form login
     public function showLoginForm()
     {
+        // Jika sudah login → ke dashboard
+        if (Auth::guard('admin')->check()) {
+            return redirect('/admin/dashboard');
+        }
+
         return view('admin.auth.login');
     }
 

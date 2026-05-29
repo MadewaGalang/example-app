@@ -4,10 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\IndustryGalleryController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController as AdminManageController;
-use App\Models\Product;
 use App\Http\Controllers\Admin\DashboardController;
 
 
@@ -32,7 +30,7 @@ Route::get('/login', function () {
 })->name('login');
 
 // Route untuk admin (tanpa auth)
-Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.loginForm')->middleware('guest:admin');
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.loginForm');
 Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login');
 
 // Route untuk admin (dengan auth)
